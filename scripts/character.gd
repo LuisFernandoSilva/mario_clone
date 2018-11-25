@@ -18,9 +18,9 @@ const GRAVITY = 1100 # Pixels / segundo
 const FLOOR_ANGLE_TOLERANCE = 40
 const WALK_FORCE = 600
 const WALK_MIN_SPEED = 10
-const WALK_MAX_SPEED = 200
+const WALK_MAX_SPEED = 300
 const JUMP_SPEED = 700
-const STOP_FORCE = 1200
+const STOP_FORCE = 1300
 const JUMP_MAX_AIRBORNE_TIME = 0.2
 
 const SLIDE_STOP_VELOCITY = 1.0 # Um pixel por segundo

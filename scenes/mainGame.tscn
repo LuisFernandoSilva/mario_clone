@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://scripts/character.gd" type="Script" id=1]
 [ext_resource path="res://assets/Personagem/p1_walk01.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://assets/Personagem/p1_walk07.png" type="Texture" id=8]
 [ext_resource path="res://tilesets/tileSet.tres" type="TileSet" id=9]
 [ext_resource path="res://assets/Tiles/cloud3.png" type="Texture" id=10]
+[ext_resource path="res://scenes/coin.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -25,18 +27,24 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="Curve2D" id=3]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, 0, 0, -209.763, 3.12639, 0, 0, 0, 0, -0.990356, 4.79658 )
+}
+
 [node name="mainGame" type="Node"]
 
 [node name="character" type="KinematicBody2D" parent="."]
 
-editor/display_folded = true
-transform/pos = Vector2( 374.537, 381.758 )
+transform/pos = Vector2( 59.8453, 520.198 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.80501, -1.80499 )
 shapes/0/trigger = false
 collision/layers = 1
-collision/mask = 1
+collision/mask = 2
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 
@@ -59,7 +67,7 @@ _update_shape_index = 0
 transform/pos = Vector2( 24.058, 57.9679 )
 enabled = true
 cast_to = Vector2( 0, 5 )
-layer_mask = 1
+layer_mask = 2
 type_mask = 15
 
 [node name="rayLeft" type="RayCast2D" parent="character"]
@@ -67,7 +75,7 @@ type_mask = 15
 transform/pos = Vector2( -20.9012, 57.9135 )
 enabled = true
 cast_to = Vector2( 0, 5 )
-layer_mask = 1
+layer_mask = 2
 type_mask = 15
 
 [node name="camera" type="Camera2D" parent="character"]
@@ -102,13 +110,14 @@ cell/y_sort = false
 collision/use_kinematic = false
 collision/friction = 1.0
 collision/bounce = 0.0
-collision/layers = 1
+collision/layers = 2
 collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray( 65535, 3, 131071, 3, 196607, 3, 262143, 3, 327679, 3, 393215, 3, 458751, 3, 393226, 1, 393227, 0, 393228, 0, 393229, 0, 393230, 2, 524287, 3, 589823, 3, 655359, 3, 589824, 0, 589825, 0, 589826, 0, 589827, 0, 589828, 0, 589829, 0, 589830, 0, 589831, 0, 589832, 1, 589833, 0, 589834, 2, 589835, 4, 589836, 4, 589837, 4, 589838, 4, 589839, 1, 589840, 0, 589841, 0, 589842, 0, 589843, 0, 720895, 3, 655360, 3, 655361, 3, 655362, 3, 655363, 3, 655364, 3, 655365, 3, 655366, 3, 655367, 3, 655368, 3, 655369, 3, 655370, 3, 655371, 5, 655372, 5, 655373, 5, 655374, 5, 655375, 3, 655376, 3, 655377, 3, 655378, 3, 655379, 3, 786431, 3, 720896, 3, 720897, 3, 720898, 3, 720899, 3, 720900, 3, 720901, 3, 720902, 3, 720903, 3, 720904, 3, 720905, 3, 720906, 3, 720907, 5, 720908, 5, 720909, 5, 720910, 5, 720911, 3, 720912, 3, 720913, 3, 720914, 3, 720915, 3 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
+editor/display_folded = true
 layer = -1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -145,5 +154,28 @@ texture = ExtResource( 10 )
 
 transform/pos = Vector2( 775.4, 246.718 )
 texture = ExtResource( 10 )
+
+[node name="coins" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="coin" parent="coins" instance=ExtResource( 11 )]
+
+transform/pos = Vector2( 1011.59, 534.631 )
+
+[node name="coin1" parent="coins" instance=ExtResource( 11 )]
+
+transform/pos = Vector2( 420.041, 545.652 )
+
+[node name="coin2" parent="coins" instance=ExtResource( 11 )]
+
+transform/pos = Vector2( 1088.11, 534.631 )
+
+[node name="enemys" type="Node2D" parent="."]
+
+[node name="enemyPath" parent="enemys" instance=ExtResource( 12 )]
+
+transform/pos = Vector2( 502.708, 551.119 )
+curve = SubResource( 3 )
 
 
