@@ -6,16 +6,21 @@ extends KinematicBody2D
 # sempre mova-o para um ponto que não colide,
 # contanto que comece de um local que não colida também.
 
+
+onready var rayLeft = get_node("rayLeft")
+onready var rayRight = get_node("rayRight")
+onready var sprite = get_node("sprite")
+
 # Variáveis de membro
-const GRAVITY = 500.0 # Pixels / segundo
+const GRAVITY = 1100 # Pixels / segundo
 
 # Ângulo em graus para cada lado que o jogador pode considerar "piso"
 const FLOOR_ANGLE_TOLERANCE = 40
 const WALK_FORCE = 600
 const WALK_MIN_SPEED = 10
 const WALK_MAX_SPEED = 200
-const STOP_FORCE = 1300
-const JUMP_SPEED = 200
+const JUMP_SPEED = 700
+const STOP_FORCE = 1200
 const JUMP_MAX_AIRBORNE_TIME = 0.2
 
 const SLIDE_STOP_VELOCITY = 1.0 # Um pixel por segundo
@@ -117,6 +122,19 @@ func _fixed_process(delta):
 	on_air_time += delta
 	prev_jump_pressed = jump
 
+	var in_floor = rayRight.is_colliding() or rayLeft.is_colliding()
+	if walk_right:
+		sprite.set_flip_h(false)
+	if walk_left:
+		sprite.set_flip_h(true)
+	if (walk_right or walk_left) and in_floor:
+		sprite.play()
+	elif(walk_right or walk_left):
+		sprite.stop()
+		sprite.set_frame(3) #o frame com as pernas abertas durante o salto
+	else:
+		sprite.stop()
+		sprite.set_frame(3) #frame de pernas juntas
 
 func _ready():
 	set_fixed_process(true)
