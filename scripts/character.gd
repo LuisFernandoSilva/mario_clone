@@ -6,10 +6,12 @@ extends KinematicBody2D
 # sempre mova-o para um ponto que não colide,
 # contanto que comece de um local que não colida também.
 
-
 onready var rayLeft = get_node("rayLeft")
 onready var rayRight = get_node("rayRight")
 onready var sprite = get_node("sprite")
+var live = true
+signal dead
+
 
 # Variáveis de membro
 const GRAVITY = 1100 # Pixels / segundo
@@ -37,9 +39,9 @@ func _fixed_process(delta):
 	# Criar forças
 	var force = Vector2(0, GRAVITY)
 	
-	var walk_left = Input.is_action_pressed("move_left")
-	var walk_right = Input.is_action_pressed("move_right")
-	var jump = Input.is_action_pressed("jump")
+	var walk_left = Input.is_action_pressed("move_left") and live
+	var walk_right = Input.is_action_pressed("move_right") and live
+	var jump = Input.is_action_pressed("jump") and live
 	
 	var stop = true
 	
@@ -116,8 +118,7 @@ func _fixed_process(delta):
 	if (on_air_time < JUMP_MAX_AIRBORNE_TIME and jump and not prev_jump_pressed and not jumping):
 		# Jump também deve ser permitido se o personagem sair do chão um pouco atrás.
 		# Torna os controles mais agitados.
-		velocity.y = -JUMP_SPEED
-		jumping = true
+		jump()
 	
 	on_air_time += delta
 	prev_jump_pressed = jump
@@ -135,6 +136,35 @@ func _fixed_process(delta):
 	else:
 		sprite.stop()
 		sprite.set_frame(3) #frame de pernas juntas
-
+	if get_pos().y > 900: dead() #personagem sai da tela, cai na agua
+	
 func _ready():
 	set_fixed_process(true)
+
+
+func _on_foot_body_enter( body ):
+	if not live: return 
+	jump()
+	body.smash()
+
+func jump():
+	velocity.y = -JUMP_SPEED
+	jumping = true
+
+func _on_body_body_enter( body ):
+	if not live: return 
+	dead()
+
+func dead():
+	if not live: return 
+	live = false
+	velocity.y = -500 #faz ele pular pra cima
+	get_node("shape").set_trigger(true) #shape principal se desliga tds as colisoes
+	emit_signal("dead") # emite um sinal pra tds de morte
+	
+
+
+func _on_head_body_enter( body ):
+	if not live: return 
+	if body.has_method("destroy"): #para que possa nao destroir os blocos nao destruitives
+		body.destroy()
