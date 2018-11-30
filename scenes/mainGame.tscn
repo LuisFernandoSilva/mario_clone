@@ -22,17 +22,17 @@
 [ext_resource path="res://assets/Botoes/cima0.png" type="Texture" id=20]
 [ext_resource path="res://assets/Botoes/cima1.png" type="Texture" id=21]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 9.24976, 283.893 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 23.3642, 51.1947 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
@@ -41,22 +41,22 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
 extents = Vector2( 22.9432, 0.546387 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34.1519, 42.2868 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34.6923, 4.66391 )
 
-[sub_resource type="Curve2D" id=6]
+[sub_resource type="Curve2D" id=7]
 
 bake_interval = 5.0
 _data = {
@@ -102,7 +102,7 @@ autostart = false
 
 transform/pos = Vector2( 2546.87, 543.992 )
 input/pickable = true
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -21.6362, -250.36 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -114,7 +114,7 @@ collision/layers = 0
 [node name="shape" type="CollisionShape2D" parent="end"]
 
 transform/pos = Vector2( -21.6362, -250.36 )
-shape = SubResource( 7 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -124,7 +124,7 @@ editor/display_folded = true
 transform/pos = Vector2( 59.8453, 520.198 )
 z/z = 1
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.40779, 6.53632 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -135,14 +135,14 @@ script/script = ExtResource( 2 )
 [node name="sprite" type="AnimatedSprite" parent="character"]
 
 transform/scale = Vector2( 1.3, 1.3 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "default"
 frame = 1
 
 [node name="shape" type="CollisionShape2D" parent="character"]
 
 transform/pos = Vector2( 1.40779, 6.53632 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -185,7 +185,7 @@ drag_margin/bottom = 0.2
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.65775, 59.4651 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -198,7 +198,7 @@ collision/mask = 8192
 [node name="shape" type="CollisionShape2D" parent="character/foot"]
 
 transform/pos = Vector2( 1.65775, 59.4651 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
@@ -206,7 +206,7 @@ _update_shape_index = 0
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 5 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.62108, -4.86328 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -219,7 +219,7 @@ collision/mask = 8192
 [node name="shape" type="CollisionShape2D" parent="character/body"]
 
 transform/pos = Vector2( 1.62108, -4.86328 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
@@ -227,7 +227,7 @@ _update_shape_index = 0
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.62108, -57.8185 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -238,7 +238,7 @@ angular_damp = 1.0
 [node name="shape" type="CollisionShape2D" parent="character/head"]
 
 transform/pos = Vector2( 1.62108, -57.8185 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
@@ -368,7 +368,7 @@ editor/display_folded = true
 [node name="enemyPath" parent="enemys" instance=ExtResource( 13 )]
 
 transform/pos = Vector2( 502.708, 551.119 )
-curve = SubResource( 6 )
+curve = SubResource( 7 )
 
 [node name="blocks" type="Node2D" parent="."]
 
