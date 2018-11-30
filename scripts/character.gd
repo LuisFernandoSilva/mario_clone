@@ -10,7 +10,12 @@ onready var rayLeft = get_node("rayLeft")
 onready var rayRight = get_node("rayRight")
 onready var sprite = get_node("sprite")
 var live = true
+var left
+var right
+var up
+var end = false
 signal dead
+signal end
 
 
 # Variáveis de membro
@@ -39,9 +44,9 @@ func _fixed_process(delta):
 	# Criar forças
 	var force = Vector2(0, GRAVITY)
 	
-	var walk_left = Input.is_action_pressed("move_left") and live
-	var walk_right = Input.is_action_pressed("move_right") and live
-	var jump = Input.is_action_pressed("jump") and live
+	var walk_left =(Input.is_action_pressed("move_left") or left) and live
+	var walk_right =(Input.is_action_pressed("move_right") or right or end) and live
+	var jump = (Input.is_action_pressed("jump") or up) and live
 	
 	var stop = true
 	
@@ -168,3 +173,41 @@ func _on_head_body_enter( body ):
 	if not live: return 
 	if body.has_method("destroy"): #para que possa nao destroir os blocos nao destruitives
 		body.destroy()
+
+
+func _on_buttonLeft_pressed():
+	left = true
+
+
+func _on_buttonLeft_released():
+	left = false
+
+
+
+func _on_buttonRight_pressed():
+	right = true
+
+
+func _on_buttonRight_released():
+	right = false
+
+
+func _on_buttonUp_pressed():
+	up = true
+
+
+func _on_buttonUp_released():
+	up = false
+
+func rebornCharacter():
+	velocity = Vector2(0,0) #reinicia a velocidade pq esta caindo
+	get_node("shape").set_trigger(false) #liga novamente a colisao
+	get_node("camera").make_current() #volta da camera d morte pra do personagem
+	live = true
+	end = false
+
+
+func _on_end_body_enter( body ):
+	end = true 
+	emit_signal("end") #sinal usado no mainGame para a camera parar no fim
+	#aciona o fim no input para que o personagem continue andando para a direita de forma automatica.

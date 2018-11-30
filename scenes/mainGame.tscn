@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=1]
+[gd_scene load_steps=29 format=1]
 
 [ext_resource path="res://scripts/mainGame.gd" type="Script" id=1]
 [ext_resource path="res://scripts/character.gd" type="Script" id=2]
@@ -14,6 +14,18 @@
 [ext_resource path="res://scenes/coin.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/blockDestroy.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scenes/platMovable.tscn" type="PackedScene" id=15]
+[ext_resource path="res://assets/Botoes/esquerda0.png" type="Texture" id=16]
+[ext_resource path="res://assets/Botoes/esquerda1.png" type="Texture" id=17]
+[ext_resource path="res://assets/Botoes/direita0.png" type="Texture" id=18]
+[ext_resource path="res://assets/Botoes/direita1.png" type="Texture" id=19]
+[ext_resource path="res://assets/Botoes/cima0.png" type="Texture" id=20]
+[ext_resource path="res://assets/Botoes/cima1.png" type="Texture" id=21]
+
+[sub_resource type="RectangleShape2D" id=7]
+
+custom_solver_bias = 0.0
+extents = Vector2( 9.24976, 283.893 )
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -29,22 +41,22 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 22.9432, 0.546387 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34.1519, 42.2868 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
 extents = Vector2( 34.6923, 4.66391 )
 
-[sub_resource type="Curve2D" id=3]
+[sub_resource type="Curve2D" id=6]
 
 bake_interval = 5.0
 _data = {
@@ -74,8 +86,41 @@ drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 
+[node name="spawnPoint" type="Position2D" parent="."]
+
+transform/pos = Vector2( 63.618, 543.025 )
+transform/scale = Vector2( 2.78703, 1 )
+
+[node name="spawnTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[node name="end" type="Area2D" parent="."]
+
+transform/pos = Vector2( 2546.87, 543.992 )
+input/pickable = true
+shapes/0/shape = SubResource( 7 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -21.6362, -250.36 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 0
+
+[node name="shape" type="CollisionShape2D" parent="end"]
+
+transform/pos = Vector2( -21.6362, -250.36 )
+shape = SubResource( 7 )
+trigger = false
+_update_shape_index = 0
+
 [node name="character" type="KinematicBody2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 59.8453, 520.198 )
 z/z = 1
 input/pickable = false
@@ -84,7 +129,7 @@ shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.40779, 6.53632 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 2
-collision/margin = 0.08
+collision/margin = 0.01
 script/script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite" parent="character"]
@@ -140,7 +185,7 @@ drag_margin/bottom = 0.2
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.65775, 59.4651 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -153,14 +198,15 @@ collision/mask = 8192
 [node name="shape" type="CollisionShape2D" parent="character/foot"]
 
 transform/pos = Vector2( 1.65775, 59.4651 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="body" type="Area2D" parent="character"]
 
+editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.62108, -4.86328 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -173,14 +219,15 @@ collision/mask = 8192
 [node name="shape" type="CollisionShape2D" parent="character/body"]
 
 transform/pos = Vector2( 1.62108, -4.86328 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
 [node name="head" type="Area2D" parent="character"]
 
+editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 5 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.62108, -57.8185 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -191,7 +238,7 @@ angular_damp = 1.0
 [node name="shape" type="CollisionShape2D" parent="character/head"]
 
 transform/pos = Vector2( 1.62108, -57.8185 )
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
@@ -212,7 +259,7 @@ collision/bounce = 0.0
 collision/layers = 2
 collision/mask = 1
 occluder/light_mask = 1
-tile_data = IntArray( 262142, 3, 327678, 3, 393214, 3, 458750, 3, 393226, 1, 393227, 0, 393228, 0, 393229, 0, 393230, 2, 524286, 3, 589822, 3, 655359, 3, 589824, 0, 589825, 0, 589826, 0, 589827, 0, 589828, 0, 589829, 0, 589830, 0, 589831, 0, 589832, 1, 589833, 0, 589834, 2, 589835, 4, 589836, 4, 589837, 4, 589838, 4, 589839, 1, 589840, 0, 589841, 0, 589842, 0, 589843, 0, 720895, 3, 655360, 3, 655361, 3, 655362, 3, 655363, 3, 655364, 3, 655365, 3, 655366, 3, 655367, 3, 655368, 3, 655369, 3, 655370, 3, 655371, 5, 655372, 5, 655373, 5, 655374, 5, 655375, 3, 655376, 3, 655377, 3, 655378, 3, 655379, 3, 786431, 3, 720896, 3, 720897, 3, 720898, 3, 720899, 3, 720900, 3, 720901, 3, 720902, 3, 720903, 3, 720904, 3, 720905, 3, 720906, 3, 720907, 5, 720908, 5, 720909, 5, 720910, 5, 720911, 3, 720912, 3, 720913, 3, 720914, 3, 720915, 3 )
+tile_data = IntArray( 262145, 3, 327681, 3, 393217, 3, 393226, 1, 393227, 0, 393228, 0, 393229, 0, 393230, 2, 458753, 3, 524289, 3, 524330, 6, 655359, 3, 589824, 0, 589825, 0, 589826, 0, 589827, 0, 589828, 0, 589829, 0, 589830, 0, 589831, 0, 589832, 1, 589833, 0, 589834, 2, 589835, 4, 589836, 4, 589837, 4, 589838, 4, 589839, 1, 589840, 0, 589841, 0, 589842, 0, 589843, 0, 589857, 0, 589858, 0, 589859, 0, 589860, 0, 589861, 0, 589862, 0, 589863, 0, 589864, 0, 589865, 0, 589866, 0, 589867, 0, 589868, 0, 589869, 0, 589870, 0, 589871, 0, 589872, 0, 589873, 0, 589874, 0, 589875, 0, 589876, 0, 720895, 3, 655360, 3, 655361, 3, 655362, 3, 655363, 3, 655364, 3, 655365, 3, 655366, 3, 655367, 3, 655368, 3, 655369, 3, 655370, 3, 655371, 5, 655372, 5, 655373, 5, 655374, 5, 655375, 3, 655376, 3, 655377, 3, 655378, 3, 655379, 3, 655393, 3, 655394, 3, 655395, 3, 655396, 3, 655397, 3, 655398, 3, 655399, 3, 655400, 3, 655401, 3, 655402, 3, 655403, 3, 655404, 3, 655405, 3, 655406, 3, 655407, 3, 655408, 3, 655409, 3, 655410, 3, 655411, 3, 655412, 3, 786431, 3, 720896, 3, 720897, 3, 720898, 3, 720899, 3, 720900, 3, 720901, 3, 720902, 3, 720903, 3, 720904, 3, 720905, 3, 720906, 3, 720907, 5, 720908, 5, 720909, 5, 720910, 5, 720911, 3, 720912, 3, 720913, 3, 720914, 3, 720915, 3, 720929, 3, 720930, 3, 720931, 3, 720932, 3, 720933, 3, 720934, 3, 720935, 3, 720936, 3, 720937, 3, 720938, 3, 720939, 3, 720940, 3, 720941, 3, 720942, 3, 720943, 3, 720944, 3, 720945, 3, 720946, 3, 720947, 3, 720948, 3, 786434, 3, 786435, 3, 786436, 3, 786437, 3, 786438, 3, 786439, 3, 786440, 3, 786441, 3, 786442, 3, 786447, 3, 786448, 3, 786449, 3, 786450, 3, 786451, 3, 786465, 3, 786466, 3, 786467, 3, 786468, 3, 786469, 3, 786470, 3, 786471, 3, 786472, 3, 786473, 3, 786474, 3, 786475, 3, 786476, 3, 786477, 3, 786478, 3, 786479, 3, 786480, 3, 786481, 3, 786482, 3, 786483, 3, 786484, 3, 852001, 3, 852002, 3, 852003, 3, 852004, 3, 852005, 3, 852006, 3, 852007, 3, 852008, 3, 852009, 3, 852010, 3, 852011, 3, 852012, 3, 852013, 3, 852014, 3, 852015, 3, 852016, 3, 852017, 3, 852018, 3, 852019, 3, 852020, 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -257,6 +304,31 @@ texture = ExtResource( 11 )
 transform/pos = Vector2( 775.4, 246.718 )
 texture = ExtResource( 11 )
 
+[node name="Sprite4" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/pos = Vector2( 1399.75, 240.536 )
+texture = ExtResource( 11 )
+
+[node name="Sprite5" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/pos = Vector2( 1103.03, 206.537 )
+texture = ExtResource( 11 )
+
+[node name="Sprite6" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/pos = Vector2( 1795.39, 333.262 )
+texture = ExtResource( 11 )
+
+[node name="Sprite7" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/pos = Vector2( 1900.48, 172.537 )
+texture = ExtResource( 11 )
+
+[node name="Sprite8" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/pos = Vector2( 2184.83, 330.171 )
+texture = ExtResource( 11 )
+
 [node name="coins" type="Node2D" parent="."]
 
 editor/display_folded = true
@@ -273,6 +345,22 @@ transform/pos = Vector2( 420.041, 545.652 )
 
 transform/pos = Vector2( 1088.11, 534.631 )
 
+[node name="coin3" parent="coins" instance=ExtResource( 12 )]
+
+transform/pos = Vector2( 1088.11, 534.631 )
+
+[node name="coin4" parent="coins" instance=ExtResource( 12 )]
+
+transform/pos = Vector2( 2185.37, 537.722 )
+
+[node name="coin5" parent="coins" instance=ExtResource( 12 )]
+
+transform/pos = Vector2( 2315.18, 540.813 )
+
+[node name="coin6" parent="coins" instance=ExtResource( 12 )]
+
+transform/pos = Vector2( 2451.18, 534.631 )
+
 [node name="enemys" type="Node2D" parent="."]
 
 editor/display_folded = true
@@ -280,9 +368,11 @@ editor/display_folded = true
 [node name="enemyPath" parent="enemys" instance=ExtResource( 13 )]
 
 transform/pos = Vector2( 502.708, 551.119 )
-curve = SubResource( 3 )
+curve = SubResource( 6 )
 
 [node name="blocks" type="Node2D" parent="."]
+
+editor/display_folded = true
 
 [node name="blockDestroy" parent="blocks" instance=ExtResource( 14 )]
 
@@ -294,12 +384,92 @@ transform/pos = Vector2( 601.237, 248.322 )
 
 transform/pos = Vector2( 1090.6, 418.681 )
 
+[node name="blockDestroy3" parent="blocks" instance=ExtResource( 14 )]
+
+transform/pos = Vector2( 1878.77, 780.312 )
+
+[node name="platforms" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="platMovable" parent="platforms" instance=ExtResource( 15 )]
+
+[node name="canvasLayer" type="CanvasLayer" parent="."]
+
+editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="controlls" type="Node2D" parent="canvasLayer"]
+
+[node name="buttonLeft" type="TouchScreenButton" parent="canvasLayer/controlls"]
+
+transform/pos = Vector2( 10.8065, 590.883 )
+transform/scale = Vector2( 3.5, 3.5 )
+normal = ExtResource( 16 )
+pressed = ExtResource( 17 )
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+
+[node name="buttonRight" type="TouchScreenButton" parent="canvasLayer/controlls"]
+
+transform/pos = Vector2( 151.675, 590.883 )
+transform/scale = Vector2( 3.5, 3.5 )
+normal = ExtResource( 18 )
+pressed = ExtResource( 19 )
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+
+[node name="buttonUp" type="TouchScreenButton" parent="canvasLayer/controlls"]
+
+transform/pos = Vector2( 1124.12, 590.883 )
+transform/scale = Vector2( 3.5, 3.5 )
+normal = ExtResource( 20 )
+pressed = ExtResource( 21 )
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+
+[connection signal="timeout" from="spawnTimer" to="." method="_on_spawnTimer_timeout"]
+
+[connection signal="body_enter" from="end" to="character" method="_on_end_body_enter"]
+
 [connection signal="dead" from="character" to="." method="_on_character_dead"]
+
+[connection signal="end" from="character" to="." method="_on_character_end"]
 
 [connection signal="body_enter" from="character/foot" to="character" method="_on_foot_body_enter"]
 
 [connection signal="body_enter" from="character/body" to="character" method="_on_body_body_enter"]
 
 [connection signal="body_enter" from="character/head" to="character" method="_on_head_body_enter"]
+
+[connection signal="pressed" from="canvasLayer/controlls/buttonLeft" to="character" method="_on_buttonLeft_pressed"]
+
+[connection signal="released" from="canvasLayer/controlls/buttonLeft" to="character" method="_on_buttonLeft_released"]
+
+[connection signal="pressed" from="canvasLayer/controlls/buttonRight" to="character" method="_on_buttonRight_pressed"]
+
+[connection signal="released" from="canvasLayer/controlls/buttonRight" to="character" method="_on_buttonRight_released"]
+
+[connection signal="pressed" from="canvasLayer/controlls/buttonUp" to="character" method="_on_buttonUp_pressed"]
+
+[connection signal="released" from="canvasLayer/controlls/buttonUp" to="character" method="_on_buttonUp_released"]
 
 
